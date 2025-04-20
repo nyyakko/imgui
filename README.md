@@ -16,7 +16,6 @@ cmake_minimum_required_version(VERSION 3.25)
 project(CoolProject LANGUAGES CXX)
 
 find_package(imgui CONFIG REQUIRED)
-find_package(liberror CONFIG REQUIRED)
 add_executable(CoolProject source.cpp)
 target_link_libraries(CoolProject PRIVATE imgui::imgui)
 ```
