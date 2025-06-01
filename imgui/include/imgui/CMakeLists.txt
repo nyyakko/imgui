@@ -1,3 +1,5 @@
+add_subdirectory(extensions)
+
 set(DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(imgui_HeaderFiles ${imgui_HeaderFiles}
