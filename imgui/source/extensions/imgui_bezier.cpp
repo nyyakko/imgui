@@ -22,12 +22,12 @@ static void RenderBezier(ImDrawList* const drawList, ImRect frame, float anchors
 
     for (size_t i = 0; i < SMOOTHNESS; i += 1)
     {
-        float tA = i/(float)SMOOTHNESS;
+        float tA = (i+0)/(float)SMOOTHNESS;
+        float tB = (i+1)/(float)SMOOTHNESS;
         ImVec2 p (
                 (0 + (3 * (1-tA)*(1-tA) * tA)*anchors[0] + (3 * (1-tA) * tA*tA)*anchors[2] + (tA*tA*tA)),
             1 - (0 + (3 * (1-tA)*(1-tA) * tA)*anchors[1] + (3 * (1-tA) * tA*tA)*anchors[3] + (tA*tA*tA))
         );
-        float tB = (i+1)/(float)SMOOTHNESS;
         ImVec2 q (
                 (0 + (3 * (1-tB)*(1-tB) * tB)*anchors[0] + (3 * (1-tB) * tB*tB)*anchors[2] + (tB*tB*tB)),
             1 - (0 + (3 * (1-tB)*(1-tB) * tB)*anchors[1] + (3 * (1-tB) * tB*tB)*anchors[3] + (tB*tB*tB))
@@ -53,7 +53,7 @@ static bool RenderGrabbers(ImDrawList* const drawList, ImRect frame, ImVec2 size
         ImGui::SetCursorScreenPos(p2 - ImVec2(GRABBER_RADIUS, GRABBER_RADIUS));
         char anchorTooltip[256] {};
         snprintf(anchorTooltip, sizeof(anchorTooltip), "%lu##%s", i, label);
-        ImGui::InvisibleButton(anchorTooltip, ImVec2(2 * GRABBER_RADIUS, 2 * GRABBER_RADIUS));
+        ImGui::InvisibleButton(anchorTooltip, { 2 * GRABBER_RADIUS, 2 * GRABBER_RADIUS });
 
         bool active = ImGui::IsItemActive() || ImGui::IsItemHovered();
 
@@ -72,11 +72,11 @@ static bool RenderGrabbers(ImDrawList* const drawList, ImRect frame, ImVec2 size
             changed = true;
         }
 
-        drawList->AddLine(p1, p2, ImColor(GRABBER_LINE_COLOR), GRABBER_LINE_WIDTH);
-        drawList->AddCircleFilled(p2, GRABBER_RADIUS, active ? ImColor(GRABBER_ACTIVE_COLOR) : ImColor(GRABBER_COLOR));
+        drawList->AddLine(p1, p2, GRABBER_LINE_COLOR, GRABBER_LINE_WIDTH);
+        drawList->AddCircleFilled(p2, GRABBER_RADIUS, active ? GRABBER_ACTIVE_COLOR : GRABBER_COLOR);
     }
 
-    ImGui::SetCursorScreenPos(ImVec2(frame.Min.x, frame.Max.y + GRABBER_RADIUS));
+    ImGui::SetCursorScreenPos({ frame.Min.x, frame.Max.y + GRABBER_RADIUS });
 
     return changed;
 }
