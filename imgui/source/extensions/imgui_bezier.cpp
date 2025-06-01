@@ -23,15 +23,15 @@ static void RenderBezier(ImDrawList* const drawList, ImRect frame, float anchors
     for (size_t i = 0; i < SMOOTHNESS; i += 1)
     {
         float tA = i/(float)SMOOTHNESS;
-        ImVec2 p {
+        ImVec2 p (
                 (0 + (3 * (1-tA)*(1-tA) * tA)*anchors[0] + (3 * (1-tA) * tA*tA)*anchors[2] + (tA*tA*tA)),
             1 - (0 + (3 * (1-tA)*(1-tA) * tA)*anchors[1] + (3 * (1-tA) * tA*tA)*anchors[3] + (tA*tA*tA))
-        };
+        );
         float tB = (i+1)/(float)SMOOTHNESS;
-        ImVec2 q {
+        ImVec2 q (
                 (0 + (3 * (1-tB)*(1-tB) * tB)*anchors[0] + (3 * (1-tB) * tB*tB)*anchors[2] + (tB*tB*tB)),
             1 - (0 + (3 * (1-tB)*(1-tB) * tB)*anchors[1] + (3 * (1-tB) * tB*tB)*anchors[3] + (tB*tB*tB))
-        };
+        );
         ImVec2 r { p.x * (frame.Max.x - frame.Min.x) + frame.Min.x, p.y * (frame.Max.y - frame.Min.y) + frame.Min.y };
         ImVec2 s { q.x * (frame.Max.x - frame.Min.x) + frame.Min.x, q.y * (frame.Max.y - frame.Min.y) + frame.Min.y };
         drawList->AddLine(r, s, COLOR, CURVE_WIDTH);
