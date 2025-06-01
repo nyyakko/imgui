@@ -32,8 +32,8 @@ static void RenderBezier(ImDrawList* const drawList, ImRect frame, float anchors
                 (0 + (3 * (1-tB)*(1-tB) * tB)*anchors[0] + (3 * (1-tB) * tB*tB)*anchors[2] + (tB*tB*tB)),
             1 - (0 + (3 * (1-tB)*(1-tB) * tB)*anchors[1] + (3 * (1-tB) * tB*tB)*anchors[3] + (tB*tB*tB))
         );
-        ImVec2 r { p.x * (frame.Max.x - frame.Min.x) + frame.Min.x, p.y * (frame.Max.y - frame.Min.y) + frame.Min.y };
-        ImVec2 s { q.x * (frame.Max.x - frame.Min.x) + frame.Min.x, q.y * (frame.Max.y - frame.Min.y) + frame.Min.y };
+        ImVec2 r(p.x * (frame.Max.x - frame.Min.x) + frame.Min.x, p.y * (frame.Max.y - frame.Min.y) + frame.Min.y);
+        ImVec2 s(q.x * (frame.Max.x - frame.Min.x) + frame.Min.x, q.y * (frame.Max.y - frame.Min.y) + frame.Min.y);
         drawList->AddLine(r, s, COLOR, CURVE_WIDTH);
     }
 }
