@@ -103,7 +103,7 @@ bool ImGui::BezierEditor(const char* label, float* points, ImVec2 size)
 
         RenderGrid(drawList, size, frame);
         RenderBezier(drawList, frame, points);
-        RenderGrabbers(drawList, frame, size, label, points);
+        changed = RenderGrabbers(drawList, frame, size, label, points);
 
         PushItemWidth(size.x / 2 - 3);
         for (size_t i = 0; i <= 2; i += 2)
@@ -113,7 +113,7 @@ bool ImGui::BezierEditor(const char* label, float* points, ImVec2 size)
             {
                 char sliderLabel[256] {};
                 snprintf(sliderLabel, sizeof(sliderLabel), "##%lu%s", j, label);
-                changed = SliderFloat(sliderLabel, &points[j], 0, 1);
+                changed |= SliderFloat(sliderLabel, &points[j], 0, 1);
             }
             EndGroup();
             SameLine();
