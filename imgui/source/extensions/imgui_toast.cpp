@@ -92,7 +92,7 @@ void ImGui::PushToast(const char* title, const char* content)
     auto [windowWidth, windowHeight] = GetWindowSize();
     auto [fontWidth, fontHeight] = ImGui::CalcTextSize("A");
     static constexpr auto TOAST_BASE_WIDTH = 300;
-    static constexpr auto TOAST_BASE_HEIGHT = 100;
+    static constexpr auto TOAST_BASE_HEIGHT = 45;
 
     toast.creationTime = std::chrono::steady_clock::now();
     toast.tag = RandomInt(0zu, std::numeric_limits<size_t>::max());
@@ -101,11 +101,10 @@ void ImGui::PushToast(const char* title, const char* content)
     toast.title = title;
 
     auto lines = Wrap(content, TOAST_BASE_WIDTH);
-    auto contentHeight = lines.size() * fontHeight;
 
     toast.size = {
         TOAST_BASE_WIDTH,
-        TOAST_BASE_HEIGHT + (contentHeight > (TOAST_BASE_HEIGHT - fontHeight) ? contentHeight - fontHeight : 0)
+        TOAST_BASE_HEIGHT + lines.size() * fontHeight
     };
 
     toast.content = JoinLines(lines);
