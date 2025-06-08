@@ -194,10 +194,11 @@ void ImGui::RenderToasts(ImGuiToastDirection direction, float scale)
 
     for (auto& toast : toasts)
     {
+        toast.size *= scale;
         UpdateToastState(toast);
         UpdateToastPosition(toast, direction);
         SetNextWindowBgAlpha(toast.opacity);
-        SetNextWindowSize(toast.size * scale);
+        SetNextWindowSize(toast.size);
         char toastLabel[256] = {};
         snprintf(toastLabel, sizeof(toastLabel), "##%s%zu", toast.title.data(), toast.tag);
         Begin(toastLabel, nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
