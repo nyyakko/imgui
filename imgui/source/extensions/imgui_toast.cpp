@@ -89,8 +89,7 @@ void ImGui::PushToast(const char* title, const char* content)
 
     Toast toast {};
 
-    auto [windowWidth, windowHeight] = GetWindowSize();
-    auto [fontWidth, fontHeight] = ImGui::CalcTextSize("A");
+    auto [fontWidth, fontHeight] = CalcTextSize("A");
     static constexpr auto TOAST_BASE_WIDTH = 300;
     static constexpr auto TOAST_BASE_HEIGHT = 45;
 
@@ -110,9 +109,9 @@ void ImGui::PushToast(const char* title, const char* content)
     toast.content = JoinLines(lines);
 
     if (toasts.empty())
-        toast.position = { windowWidth - (5 + toast.size.x), 5 };
+        toast.position = { (5 + toast.size.x), 5 };
     else
-        toast.position = { windowWidth - (5 + toast.size.x), 5 + toasts.front().position.y + toasts.front().size.y };
+        toast.position = { (5 + toast.size.x), 5 + toasts.front().position.y + toasts.front().size.y };
 
     toasts.push_front(toast);
 }
@@ -152,7 +151,32 @@ static void UpdateToastState(Toast& toast)
     }
 }
 
-void ImGui::RenderToasts()
+static void UpdateToastPosition(Toast& toast, ImGuiToastDirection direction)
+{
+    auto [windowWidth, windowHeight] = ImGui::GetWindowSize();
+
+    switch (direction)
+    {
+    case ImGuiToastDirection_TopLeft: {
+        ImGui::SetNextWindowPos({ toast.position.x - toast.size.x, toast.position.y });
+        break;
+    }
+    case ImGuiToastDirection_BottomLeft: {
+        ImGui::SetNextWindowPos({ toast.position.x - toast.size.x, windowHeight - toast.size.y - toast.position.y });
+        break;
+    }
+    case ImGuiToastDirection_TopRight: {
+        ImGui::SetNextWindowPos({ windowWidth - toast.position.x, toast.position.y });
+        break;
+    }
+    case ImGuiToastDirection_BottomRight: {
+        ImGui::SetNextWindowPos({ windowWidth - toast.position.x, windowHeight - toast.size.y - toast.position.y });
+        break;
+    }
+    }
+}
+
+void ImGui::RenderToasts(ImGuiToastDirection direction)
 {
     auto& toasts = The_Toasts();
 
@@ -171,12 +195,9 @@ void ImGui::RenderToasts()
     for (auto& toast : toasts)
     {
         UpdateToastState(toast);
-
+        UpdateToastPosition(toast, direction);
         SetNextWindowBgAlpha(toast.opacity);
         SetNextWindowSize(toast.size);
-
-        SetNextWindowPos(toast.position);
-
         char toastLabel[256] = {};
         snprintf(toastLabel, sizeof(toastLabel), "##%s%zu", toast.title.data(), toast.tag);
         Begin(toastLabel, nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
