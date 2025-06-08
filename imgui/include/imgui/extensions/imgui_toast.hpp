@@ -13,6 +13,6 @@ enum ImGuiToastDirection_
 namespace ImGui {
 
 void PushToast(const char* title, const char* content);
-void RenderToasts(ImGuiToastDirection direction = ImGuiToastDirection_TopRight, float scale = 1.0f);
+void RenderToasts(ImGuiToastDirection direction = ImGuiToastDirection_TopRight);
 
 }

@@ -176,7 +176,7 @@ static void UpdateToastPosition(Toast& toast, ImGuiToastDirection direction)
     }
 }
 
-void ImGui::RenderToasts(ImGuiToastDirection direction, float scale)
+void ImGui::RenderToasts(ImGuiToastDirection direction)
 {
     auto& toasts = The_Toasts();
 
@@ -194,7 +194,6 @@ void ImGui::RenderToasts(ImGuiToastDirection direction, float scale)
 
     for (auto& toast : toasts)
     {
-        toast.size *= scale;
         UpdateToastState(toast);
         UpdateToastPosition(toast, direction);
         SetNextWindowBgAlpha(toast.opacity);
