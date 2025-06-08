@@ -109,9 +109,9 @@ void ImGui::PushToast(const char* title, const char* content)
     toast.content = JoinLines(lines);
 
     if (toasts.empty())
-        toast.position = { (5 + toast.size.x), 5 };
+        toast.position = { (GetStyle().WindowPadding.x + toast.size.x), GetStyle().WindowPadding.y };
     else
-        toast.position = { (5 + toast.size.x), 5 + toasts.front().position.y + toasts.front().size.y };
+        toast.position = { (GetStyle().WindowPadding.x + toast.size.x), GetStyle().WindowPadding.y + toasts.front().position.y + toasts.front().size.y };
 
     toasts.push_front(toast);
 }
@@ -188,7 +188,7 @@ void ImGui::RenderToasts(ImGuiToastDirection direction)
 
         for (auto& toast : toasts)
         {
-            toast.position.y -= (5 + deadToast.size.y);
+            toast.position.y -= (GetStyle().WindowPadding.y + deadToast.size.y);
         }
     }
 
