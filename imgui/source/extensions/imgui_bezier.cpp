@@ -11,7 +11,7 @@ static auto constexpr GRABBER_RADIUS = 6;
 
 static void RenderGrid(ImDrawList* const drawList, ImVec2 size, ImRect frame)
 {
-    static const ImColor COLOR = ImGui::GetStyle().Colors[ImGuiCol_FrameBgActive];
+    static const ImColor COLOR = ImGui::GetStyle().Colors[ImGuiCol_FrameBgHovered];
     for (size_t i = 0; i <= size.x; i += size.x / 4) drawList->AddLine({ frame.Min.x + i, frame.Min.y }, { frame.Min.x + i, frame.Max.y }, COLOR);
     for (size_t i = 0; i <= size.y; i += size.y / 4) drawList->AddLine({ frame.Min.x, frame.Min.y + i }, { frame.Max.x, frame.Min.y + i }, COLOR);
 }
