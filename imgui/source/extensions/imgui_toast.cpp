@@ -176,7 +176,7 @@ static void UpdateToastPosition(Toast& toast, ImGuiToastDirection direction)
     }
 }
 
-void ImGui::RenderToasts(ImGuiToastDirection direction)
+void ImGui::RenderToasts(ImGuiToastDirection direction, float scale)
 {
     auto& toasts = The_Toasts();
 
@@ -197,7 +197,7 @@ void ImGui::RenderToasts(ImGuiToastDirection direction)
         UpdateToastState(toast);
         UpdateToastPosition(toast, direction);
         SetNextWindowBgAlpha(toast.opacity);
-        SetNextWindowSize(toast.size);
+        SetNextWindowSize(toast.size * scale);
         char toastLabel[256] = {};
         snprintf(toastLabel, sizeof(toastLabel), "##%s%zu", toast.title.data(), toast.tag);
         Begin(toastLabel, nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoSavedSettings);
