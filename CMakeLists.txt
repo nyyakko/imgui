@@ -2,12 +2,10 @@ cmake_minimum_required(VERSION 3.25)
 
 project(imgui LANGUAGES CXX)
 
-# include(cmake/static_analyzers.cmake)
 include(cmake/get_cpm.cmake)
 include(GNUInstallDirs)
 
-# set(imgui_CompilerOptions ${imgui_CompilerOptions})
-# set(imgui_LinkerOptions ${imgui_LinkerOptions})
+find_package(glfw3 REQUIRED)
 
 # Downloads source from remote directly
 # CPMAddPackage("gh:repo/package1#REF")
@@ -19,7 +17,14 @@ include(GNUInstallDirs)
 #     GIT_TAG REF
 # )
 
-# set(imgui_ExternalLibraries package1 package2 ...)
+# include(cmake/static_analyzers.cmake)
+
+# set(imgui_CompilerOptions ${imgui_CompilerOptions})
+# set(imgui_LinkerOptions ${imgui_LinkerOptions})
+
+set(imgui_ExternalLibraries
+    glfw
+)
 
 add_subdirectory(imgui)
 
