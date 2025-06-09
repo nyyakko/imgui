@@ -9,6 +9,7 @@
 #include <chrono>
 #include <random>
 #include <ranges>
+#include <iostream>
 
 using namespace std::chrono_literals;
 
@@ -60,16 +61,16 @@ static std::vector<std::string> Wrap(std::string const& input, size_t width)
 
     result.push_back("");
 
-    auto [fontWidth, fontHeight] = ImGui::CalcTextSize("A");
-
     for (auto const& word : input | std::views::split(' '))
     {
-        if ((result.back().size() + word.size()) * fontWidth >= width - fontWidth)
+        auto wordString = std::string(word.begin(), word.end());
+
+        if (ImGui::CalcTextSize((result.back() + " " + wordString).data()).x >= width)
         {
             result.push_back("");
         }
 
-        result.back() += std::string(word.begin(), word.end());
+        result.back() += wordString;
         result.back() += " ";
     }
 
