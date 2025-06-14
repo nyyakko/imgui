@@ -50,7 +50,7 @@ Index of this file:
 //-----------------------------------------------------------------------------
 
 #ifndef IMGUI_VERSION
-#include "imgui.h"
+#include "imgui.hpp"
 #endif
 
 #include <stdio.h>      // FILE*, sscanf
