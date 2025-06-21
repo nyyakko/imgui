@@ -24,6 +24,7 @@ find_package(glfw3 REQUIRED)
 
 set(imgui_ExternalLibraries
     glfw
+    m
 )
 
 add_subdirectory(imgui)
