@@ -4,7 +4,7 @@
 
 #include <ranges>
 
-std::vector<std::string> SplitToWidth(const char* text, int width)
+std::vector<std::string> ImGui::SplitToWidth(const char* text, int width)
 {
     std::vector<std::string> result {};
 
@@ -26,7 +26,7 @@ std::vector<std::string> SplitToWidth(const char* text, int width)
     return result;
 }
 
-std::string JoinLines(std::vector<std::string> const& lines, std::string_view separator = "\n")
+std::string ImGui::JoinLines(std::vector<std::string> const& lines, std::string_view separator)
 {
     std::string result;
     for (auto const& line : lines) result += line + separator.data();
