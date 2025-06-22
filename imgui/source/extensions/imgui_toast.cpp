@@ -3,13 +3,12 @@
 
 #include "imgui.hpp"
 #include "imgui_internal.hpp"
+#include "extensions/imgui_text.hpp"
 
 #include <list>
 #include <string>
 #include <chrono>
 #include <random>
-#include <ranges>
-#include <iostream>
 
 using namespace std::chrono_literals;
 
@@ -55,35 +54,6 @@ static size_t& The_ToastCounter()
 static inline size_t ToastCounterInc() { return The_ToastCounter()++; }
 static inline size_t ToastCounterDec() { return The_ToastCounter()--; }
 
-static std::vector<std::string> Wrap(std::string const& input, size_t width)
-{
-    std::vector<std::string> result {};
-
-    result.push_back("");
-
-    for (auto const& word : input | std::views::split(' '))
-    {
-        auto wordString = std::string(word.begin(), word.end());
-
-        if (ImGui::CalcTextSize((result.back() + " " + wordString).data()).x >= width)
-        {
-            result.push_back("");
-        }
-
-        result.back() += wordString;
-        result.back() += " ";
-    }
-
-    return result;
-}
-
-static inline std::string JoinLines(std::vector<std::string> const& lines, std::string_view separator = "\n")
-{
-    std::string result;
-    for (auto const& line : lines) result += line + separator.data();
-    return result;
-}
-
 void ImGui::PushToast(const char* title, const char* content)
 {
     auto& toasts = The_Toasts();
@@ -100,7 +70,7 @@ void ImGui::PushToast(const char* title, const char* content)
     toast.state = Toast::State::FADE_IN;
     toast.title = title;
 
-    auto lines = Wrap(content, TOAST_BASE_WIDTH);
+    auto lines = SplitToWidth(content, TOAST_BASE_WIDTH);
 
     toast.size = {
         TOAST_BASE_WIDTH,
