@@ -59,6 +59,7 @@ static inline size_t ToastCounterDec() { return The_ToastCounter()--; }
 
 void ImGui::PushToast(const char* title, const char* content)
 {
+    std::scoped_lock lock(mutex_g);
     Toast toast {};
 
     auto [fontWidth, fontHeight] = CalcTextSize("A");
@@ -80,7 +81,6 @@ void ImGui::PushToast(const char* title, const char* content)
 
     toast.content = JoinLines(lines);
 
-    std::scoped_lock lock(mutex_g);
     auto& toasts = The_Toasts();
 
     if (toasts.empty())
