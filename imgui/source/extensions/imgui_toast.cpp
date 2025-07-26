@@ -5,12 +5,15 @@
 #include "imgui_internal.hpp"
 #include "extensions/imgui_text.hpp"
 
+#include <mutex>
 #include <list>
 #include <string>
 #include <chrono>
 #include <random>
 
 using namespace std::chrono_literals;
+
+std::mutex mutex_g;
 
 template <class T>
 T RandomInt(T min, T max)
@@ -56,8 +59,6 @@ static inline size_t ToastCounterDec() { return The_ToastCounter()--; }
 
 void ImGui::PushToast(const char* title, const char* content)
 {
-    auto& toasts = The_Toasts();
-
     Toast toast {};
 
     auto [fontWidth, fontHeight] = CalcTextSize("A");
@@ -78,6 +79,9 @@ void ImGui::PushToast(const char* title, const char* content)
     };
 
     toast.content = JoinLines(lines);
+
+    std::scoped_lock lock(mutex_g);
+    auto& toasts = The_Toasts();
 
     if (toasts.empty())
         toast.position = { (GetStyle().WindowPadding.x + toast.size.x), GetStyle().WindowPadding.y };
@@ -149,6 +153,7 @@ static void UpdateToastPosition(Toast& toast, ImGuiToastDirection direction)
 
 void ImGui::RenderToasts(ImGuiToastDirection direction)
 {
+    std::scoped_lock lock(mutex_g);
     auto& toasts = The_Toasts();
 
     if (!toasts.empty() && toasts.back().state == Toast::State::DEAD)
