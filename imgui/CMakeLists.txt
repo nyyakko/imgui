@@ -5,6 +5,8 @@ add_library(${PROJECT_NAME} STATIC "${imgui_SourceFiles}")
 add_library(${PROJECT_NAME}::${PROJECT_NAME} ALIAS ${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME ${PROJECT_NAME} PREFIX "")
 
+include(../cmake/export_glfw.cmake)
+
 # if (ENABLE_CLANGTIDY)
 #     enable_clang_tidy(${PROJECT_NAME})
 # endif()
@@ -23,6 +25,8 @@ target_include_directories(${PROJECT_NAME}
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_23)
 
 target_sources(${PROJECT_NAME} PUBLIC FILE_SET HEADERS BASE_DIRS include FILES ${imgui_HeaderFiles})
+
+export_glfw()
 
 export(TARGETS      ${PROJECT_NAME}
        FILE         ${EXPORT_DIR}/${PROJECT_NAME}Targets.cmake
