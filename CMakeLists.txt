@@ -5,8 +5,6 @@ project(imgui LANGUAGES CXX)
 include(cmake/get_cpm.cmake)
 include(GNUInstallDirs)
 
-# find_package(glfw3 REQUIRED)
-
 # Downloads source from remote directly
 # CPMAddPackage("gh:repo/package1#REF")
 
